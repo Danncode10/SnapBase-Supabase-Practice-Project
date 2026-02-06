@@ -15,7 +15,7 @@ The goal of this project is to implement the "Big Four" of Supabase (Auth, Datab
 
 ## 📚 Detailed Lesson Plan
 
-### 🟦 Lesson 1: The Foundation (Current)
+### 🟦 Lesson 1: The Foundation 
 * **Initialization:** Set up Next.js with Tailwind and Git.
 * **Git Strategy:** Repository name `Supabase Practice Project` with a clean `.gitignore`.
 * **Supabase Setup:** Create project and explore the Dashboard.
