@@ -1,0 +1,36 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+
+export async function signup(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  // Validate input
+  if (!email || !password) {
+    return redirect("/login?error=Please fill in all fields");
+  }
+
+  if (password.length < 6) {
+    return redirect("/login?error=Password must be at least 6 characters");
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/callback`,
+    },
+  });
+
+  if (error) {
+    return redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/login?message=Check your email for the confirmation link");
+}

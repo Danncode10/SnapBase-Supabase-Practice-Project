@@ -15,8 +15,15 @@ What it does: Before a page is even sent to the user's screen, the Head Chef (se
 Why it's powerful: Because it runs in the "back of the house," it is much more secure. It can handle sensitive tasks (like checking private database records) that you wouldn't want a Waiter (the browser) doing out in the open.
 
 
-Created login and signup page in src/app/login/pages.tsx
+- __Install `@supabase/ssr`__ - Add the package for cookie-based auth
 
-Created 
-api/auth/login
-api/auth/signup
+- __Create server actions:__
+
+  - `signup.ts` - Handle user registration with proper error reporting
+  - `login.ts` - Handle sign-in with validation
+  - `logout.ts` - Clear session cookies to prevent "Ghost Sessions"
+
+- __Create UI pages:__
+
+  - `/login/page.tsx` - Login form
+  - `/login/signup/page.tsx` - Signup form

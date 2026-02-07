@@ -48,10 +48,11 @@ Everything is now consolidated into the `ui/` folder. **Delete the `backend/` fo
 
 ### 🟦 Lesson 2: Authentication & Secure Session Management
 
-* **Server-Side Auth (SSR):** Implementing the `@supabase/ssr` package to manage user identities via encrypted cookies rather than LocalStorage.
-* **Authentication Server Actions:**
-* **Secure Signup/Login:** Creating server-side functions that handle credential validation and error reporting.
-* **Logout Logic:** Clearing session cookies server-side to prevent "Ghost Sessions."
+* **Server-Side Auth (SSR):** ✅ Implemented the `@supabase/ssr` package (server.ts and client.ts)
+identities via encrypted cookies rather than LocalStorage.
+* **Authentication Server Actions:** ✅ Implemented server-side auth actions
+* **Secure Signup/Login:** ✅ Server-side functions with validation and error reporting
+* **Logout Logic:** ✅ Clearing session cookies to prevent "Ghost Sessions"
 
 
 * **Edge Middleware Gatekeeper:**
