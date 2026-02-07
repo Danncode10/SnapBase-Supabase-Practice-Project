@@ -55,11 +55,8 @@ identities via encrypted cookies rather than LocalStorage.
 * **Logout Logic:** ✅ Clearing session cookies to prevent "Ghost Sessions"
 
 
-* **Edge Middleware Gatekeeper:**
-* Writing a global `middleware.ts` to intercept requests, refresh expired sessions in the background, and redirect unauthorized users away from protected routes.
-
-
-* **User Context:** Leveraging `supabase.auth.getUser()` to ensure high-security verification of the JWT on the server.
+* **Edge Middleware Gatekeeper:** ✅ Global `middleware.ts` intercepts requests, refreshes sessions, and redirects unauthorized users
+* **User Context:** ✅ Leveraging `supabase.auth.getUser()` for high-security JWT verification on the server
 
 ### 🟦 Lesson 3: Database Design & Row Level Security (RLS)
 
