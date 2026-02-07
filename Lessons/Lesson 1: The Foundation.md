@@ -174,16 +174,6 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 - Never commit `.env.local` to Git (it's already in `.gitignore`)
 - Service role keys should only be used server-side
 
-### For FastAPI (Backend - Future)
-
-Later, we'll create a `.env` file in the root for our Python backend:
-
-```env
-# FastAPI Environment Variables
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
-DATABASE_URL=postgresql://username:password@localhost/dbname
-FASTAPI_SECRET_KEY=your_secret_key_here
-```
 
 ## 🚀 Step 5: Deploy to Vercel
 
