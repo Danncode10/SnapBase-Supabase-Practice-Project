@@ -49,8 +49,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# lib/ folder removed as it conflicts with Next.js src/lib
+# lib64/ folder removed
 parts/
 sdist/
 var/
@@ -74,8 +74,8 @@ profile_default/
 ipython_config.py
 
 # supabase
-supabase/
-!ui/src/utils/supabase/
+/supabase/
+# !ui/src/utils/supabase/  <- no longer needed as we use /supabase/ above
 
 # logs
 logs
