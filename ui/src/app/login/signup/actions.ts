@@ -23,7 +23,7 @@ export async function signup(formData: FormData) {
     return redirect("/login?error=Server configuration error");
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -34,6 +34,13 @@ export async function signup(formData: FormData) {
   if (error) {
     return redirect(`/login?error=${encodeURIComponent(error.message)}`);
   }
+
+  // If identities is empty, it means the user already exists 
+  // (Supabase returns a fake success to prevent email enumeration, but with empty identities)
+  if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
+    return redirect("/login?error=An account with this email already exists");
+  }
+
 
   revalidatePath("/", "layout");
   redirect("/login?message=Check your email for the confirmation link");
