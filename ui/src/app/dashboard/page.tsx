@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server-utils";
 import { redirect } from "next/navigation";
 import { logout } from "@/app/logout/actions";
 
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
           <p className="text-zinc-600 dark:text-zinc-400">
             This is a protected route. Only authenticated users can see this page.
           </p>
-          
+
           <div className="mt-6 rounded-md bg-zinc-100 p-4 dark:bg-zinc-800">
             <p className="text-sm font-medium text-black dark:text-white">
               User ID: {user.id}
