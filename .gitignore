@@ -75,6 +75,7 @@ ipython_config.py
 
 # supabase
 supabase/
+!ui/src/utils/supabase/
 
 # logs
 logs
