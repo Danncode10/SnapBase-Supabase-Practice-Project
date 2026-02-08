@@ -5,6 +5,11 @@ import { logout } from "@/app/logout/actions";
 export default async function DashboardPage() {
   const supabase = await createClient();
 
+  if (!supabase) {
+    redirect("/login");
+    return;
+  }
+
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

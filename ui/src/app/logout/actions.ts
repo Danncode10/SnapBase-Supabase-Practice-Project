@@ -7,6 +7,10 @@ import { createClient } from "../../utils/supabase/server";
 export async function logout() {
   const supabase = await createClient();
 
+  if (!supabase) {
+    return redirect("/login?error=Server configuration error");
+  }
+
   // Clear session cookies server-side to prevent "Ghost Sessions"
   await supabase.auth.signOut();
 

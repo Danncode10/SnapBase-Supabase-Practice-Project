@@ -19,6 +19,10 @@ export async function signup(formData: FormData) {
 
   const supabase = await createClient();
 
+  if (!supabase) {
+    return redirect("/login?error=Server configuration error");
+  }
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
