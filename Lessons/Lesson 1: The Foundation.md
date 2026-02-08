@@ -103,6 +103,15 @@ yarn-error.log*
 next-env.d.ts
 ```
 
+### 💡 Pro Tip: Git Ignore Gotchas
+Sometimes, a broad ignore rule like `supabase/` can accidentally ignore your utility files (like `ui/src/utils/supabase/`). If your files aren't showing up in Git, add a "bang" (!) rule to whitelist them:
+
+```gitignore
+# supabase
+supabase/
+!ui/src/utils/supabase/
+```
+
 ### Commit Your Changes
 
 ```bash

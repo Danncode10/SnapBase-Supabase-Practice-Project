@@ -24,10 +24,10 @@ ui/src/
 │   │       └── page.tsx          # Signup UI
 │   ├── logout/
 │   │   └── actions.ts            # Logout server action
-│   └── middleware.ts             # Auth middleware (bouncer)
+│   └── proxy.ts                  # Auth proxy/bouncer (Next.js 16 convention)
 └── utils/
     └── supabase/
-        ├── server.ts             # Server client (Head Chef)
+        ├── server-utils.ts       # Server client (Head Chef)
         └── client.ts             # Browser client (Waiter)
 ```
 
@@ -37,7 +37,7 @@ ui/src/
 
 ### 1. Server Client vs Browser Client
 
-#### `server.ts` - The Head Chef 🧑‍🍳
+#### `server-utils.ts` - The Head Chef 🧑‍🍳
 The "Server" runs on Next.js's private cloud computer. It never leaves the server.
 
 **What it does:**
@@ -46,17 +46,30 @@ The "Server" runs on Next.js's private cloud computer. It never leaves the serve
 - Manages encrypted session cookies
 
 ```typescript
-// ui/src/utils/supabase/server.ts
-export const createClient = async () => {
+// ui/src/utils/supabase/server-utils.ts
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+export async function createClient() {
   const cookieStore = await cookies()
+
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name) { return cookieStore.get(name)?.value },
-        set(name, value, options) { cookieStore.set(name, value, options) },
-        remove(name, options) { cookieStore.set(name, '', options) },
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // The `setAll` method was called from a Server Component.
+          }
+        },
       },
     }
   )
@@ -152,9 +165,9 @@ export async function logout() {
 
 ---
 
-### 3. Middleware - The Bouncer 🚪
+### 3. Proxy - The Bouncer 🚪
 
-The middleware acts as a gatekeeper for protected routes.
+The "Proxy" (formerly known as middleware) acts as a gatekeeper for protected routes.
 
 **What it does:**
 1. Intercepts every request
@@ -163,8 +176,8 @@ The middleware acts as a gatekeeper for protected routes.
 4. Redirects unauthorized users
 
 ```typescript
-// ui/src/middleware.ts
-export async function middleware(request: NextRequest) {
+// ui/src/proxy.ts
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request: { headers: request.headers } })
 
   const supabase = createServerClient(...)
@@ -271,7 +284,7 @@ We updated the home page (`page.tsx`) to automatically redirect users based on t
 
 ```typescript
 // ui/src/app/page.tsx
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/server-utils"
 import { redirect } from "next/navigation"
 
 export default async function Home() {
